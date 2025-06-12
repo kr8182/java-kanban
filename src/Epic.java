@@ -12,7 +12,7 @@ public class Epic extends Task {
         this.epicStatus = TaskStatus.NEW;
     }
 
-    public List<SubTask> getSubtasksId() {
+    public List<SubTask> getSubtasks() {
         return subtasksId;
     }
 
@@ -22,5 +22,13 @@ public class Epic extends Task {
 
     public void removeSubTask(SubTask subtask) {
         subtasksId.remove(subtask);
+    }
+
+    public TaskStatus getEpicStatus() {
+        return epicStatus;
+    }
+
+    public void setEpicStatus(TaskStatus epicStatus) {
+        this.epicStatus = epicStatus;
     }
 }
