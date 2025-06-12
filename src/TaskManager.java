@@ -26,7 +26,7 @@ public class TaskManager {
         subtasks.clear();
     }
 
-
+    // Дополнительный метод: получение подзадач эпика
     public Task getSubtasksByEpicId(int epicId) {
         if (tasks.containsKey(epicId)) return tasks.get(epicId);
         if (epics.containsKey(epicId)) return epics.get(epicId);
@@ -97,4 +97,5 @@ public class TaskManager {
         epic.removeSubTask(subtask);
         updateEpicStatus(epic.getTaskId());
         }
-    }
+}
+
