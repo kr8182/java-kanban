@@ -32,6 +32,18 @@ public class Task {
       this.taskStatus = taskStatus;
    }
 
+   public void setTaskId(int taskId) {
+      this.taskId = taskId;
+   }
+
+   public void setTaskName(String taskName) {
+      this.taskName = taskName;
+   }
+
+   public void setTaskDescription(String taskDescription) {
+      this.taskDescription = taskDescription;
+   }
+
    @Override
    public String toString(){
       return "Task{" +
