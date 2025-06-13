@@ -3,16 +3,14 @@ import java.util.List;
 
 public class Epic extends Task {
 
-    private TaskStatus epicStatus;
     private List<SubTask> subtasksId = new ArrayList<>();
 
 
     Epic(int taskId, String taskName, String taskDescription) {
         super(taskId, taskName, taskDescription);
-        this.epicStatus = TaskStatus.NEW;
     }
 
-    public List<SubTask> getSubtasks() {
+    public List<SubTask> getSubTasks() {
         return subtasksId;
     }
 
@@ -24,11 +22,16 @@ public class Epic extends Task {
         subtasksId.remove(subtask);
     }
 
-    public TaskStatus getEpicStatus() {
-        return epicStatus;
-    }
-
-    public void setEpicStatus(TaskStatus epicStatus) {
-        this.epicStatus = epicStatus;
+    //Переопрределяем toString для корректного отображения
+    @Override
+    public String toString() {
+        return "Epic{" +
+                "taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", taskDescription='" + taskDescription + '\'' +
+                ", status=" + status +
+                ", subTasks=" + subtasksId +
+                '}';
     }
 }
+

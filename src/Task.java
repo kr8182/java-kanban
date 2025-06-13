@@ -1,56 +1,56 @@
 public class Task {
+   protected int taskId;
    protected String taskName;
    protected String taskDescription;
-   protected int taskId;
+   protected TaskStatus status;
 
-   protected TaskStatus taskStatus;
-
-   Task(int taskId, String taskName, String taskDescription){
+   public Task(int taskId, String taskName, String taskDescription) {
       this.taskId = taskId;
       this.taskName = taskName;
       this.taskDescription = taskDescription;
-      this.taskStatus = TaskStatus.NEW;
+      this.status = TaskStatus.NEW;
    }
 
+   // Геттеры и сеттеры
    public int getTaskId() {
       return taskId;
-   }
-
-   public String getTaskName() {
-      return taskName;
-   }
-
-   public String getTaskDescription() {
-      return taskDescription;
-   }
-
-   public TaskStatus getTaskStatus() {
-      return taskStatus;
-   }
-
-   public void setTaskStatus(TaskStatus taskStatus) {
-      this.taskStatus = taskStatus;
    }
 
    public void setTaskId(int taskId) {
       this.taskId = taskId;
    }
 
+   public String getTaskName() {
+      return taskName;
+   }
+
    public void setTaskName(String taskName) {
       this.taskName = taskName;
+   }
+
+   public String getTaskDescription() {
+      return taskDescription;
    }
 
    public void setTaskDescription(String taskDescription) {
       this.taskDescription = taskDescription;
    }
 
+   public TaskStatus getStatus() {
+      return status;
+   }
+
+   public void setStatus(TaskStatus status) {
+      this.status = status;
+   }
+
    @Override
-   public String toString(){
+   public String toString() {
       return "Task{" +
-              "taskId= " + taskId +
-              ", taskName= " + taskName +
-              ", taskDescription= " +
-              ", status= " + taskStatus +
-              "}";
+              "taskId=" + taskId +
+              ", taskName='" + taskName + '\'' +
+              ", taskDescription='" + taskDescription + '\'' +
+              ", status=" + status +
+              '}';
    }
 }
