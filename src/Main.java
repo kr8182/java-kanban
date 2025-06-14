@@ -31,20 +31,28 @@ public class Main {
         SubTask subtask2 = new SubTask(2, "СабТаска2", "СабТаска2_Тест", epicId);
         manager.createSubTask(subtask2);
 
-        subtask2.setStatus(TaskStatus.DONE);
-        subtask1.setStatus(TaskStatus.IN_PROGRESS);
+        subtask1.setStatus(TaskStatus.IN_PROGRESS);// тест пройден
         manager.updateEpicStatus(epicId);//тест пройден
 
-        subtask2.setStatus(TaskStatus.IN_PROGRESS);
-        manager.deleteSubtask(4);
-
+        subtask2.setStatus(TaskStatus.IN_PROGRESS);//тест пройден
         manager.updateEpicStatus(epicId); //тест пройден, статус Эпика поменялся.
 
+        //manager.deleteSubTask(4);//тест пройден
 
+        //manager.deleteAllTasks();//тест пройден
+        //manager.deleteAllEpics();//тест пройден
+        //manager.deleteAllSubTasks();//тест пройден
 
+        System.out.println("");
+        System.out.println("Работа метода getAll*");
         System.out.println(manager.getAllTasks().toString());//тест пройден
+        System.out.println(manager.getAllEpics().toString()); //тест пройден
+        System.out.println(manager.getAllSubtasks().toString()); //тест пройден
 
-        System.out.println(manager.getSubtasksByEpicId(epicId));//тест пройден
+        System.out.println("");
+        System.out.println("Работа метода getSubtasksByEpicId");
+        System.out.println(manager.getSubtasksByEpicId(epicId).toString());//тест пройден
+
 
 
 
