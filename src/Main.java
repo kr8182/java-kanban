@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -31,13 +29,11 @@ public class Main {
         SubTask subtask2 = new SubTask(2, "СабТаска2", "СабТаска2_Тест", epicId);
         manager.createSubTask(subtask2);
 
-        subtask1.setStatus(TaskStatus.IN_PROGRESS);// тест пройден
-        manager.updateEpicStatus(epicId);//тест пройден
+        subtask1.setStatus(TaskStatus.DONE);//тест пройден
 
-        subtask2.setStatus(TaskStatus.IN_PROGRESS);//тест пройден
-        manager.updateEpicStatus(epicId); //тест пройден, статус Эпика поменялся.
+        subtask2.setStatus(TaskStatus.DONE);//тест пройден
 
-        //manager.deleteSubTask(4);//тест пройден
+        //manager.deleteSubTask(4);
 
         //manager.deleteAllTasks();//тест пройден
         //manager.deleteAllEpics();//тест пройден

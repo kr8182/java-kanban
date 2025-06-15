@@ -18,6 +18,9 @@ public class TaskManager {
     public List<Epic> getAllEpics(){
         List<Epic> allEpics = new ArrayList<>();
         allEpics.addAll(epics.values());
+        for (Epic epic : allEpics) {
+            updateEpicStatus(epic.getTaskId());
+        }
         return allEpics;
     }
 
@@ -85,8 +88,41 @@ public class TaskManager {
         updateEpicStatus(epicId);
     }
 
+    //Метод удаления таски
+    public void deleteTask(int taskId) {
+        tasks.remove(taskId);
+    }
+
+    //Метод удаления Эпика
+    public void deleteEpic(int id) {
+        Epic epic = epics.remove(id);
+        if (epic != null) {
+            // Удаляем все подзадачи этого эпика
+            for (int subtaskId : epic.getSubtaskIds()) {
+                subtasks.remove(subtaskId);
+            }
+        }
+    }
+
+    //Метод удаления сабтаски
+    public void deleteSubTask(int id) {
+        SubTask subTask = subtasks.remove(id);
+        if (subTask != null) {
+            Epic epic = epics.get(subTask.getEpicId());
+            if (epic != null) {
+                epic.removeSubtaskId(id);
+                updateEpicStatus(epic.getTaskId());
+            }
+        }
+    }
+
+    //Приватный метод перемещен ниже публичных
+    private int generateId() {
+        return nextId++;
+    }
+
     //Метод обновления статуса эпика
-    protected void updateEpicStatus(int epicId) {
+    private void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
         if (epic == null) return;
 
@@ -115,39 +151,5 @@ public class TaskManager {
         } else {
             epic.setStatus(TaskStatus.IN_PROGRESS);
         }
-    }
-
-    //Метод удаления таски
-    public void deleteTask(int taskId) {
-        tasks.remove(taskId);
-    }
-
-    //Метод удаления Эпика
-    public void deleteEpic(int id) {
-        Epic epic = epics.remove(id);
-        if (epic != null) {
-            // Удаляем все подзадачи этого эпика
-            for (int subtaskId : epic.getSubtaskIds()) {
-                subtasks.remove(subtaskId);
-            }
-        }
-    }
-
-    //Метод удаления сабтаски
-    // Удаление подзадачи
-    public void deleteSubTask(int id) {
-        SubTask subTask = subtasks.remove(id);
-        if (subTask != null) {
-            Epic epic = epics.get(subTask.getEpicId());
-            if (epic != null) {
-                epic.removeSubtaskId(id);
-                updateEpicStatus(epic.getTaskId());
-            }
-        }
-    }
-
-    //Приватный метод перемещен ниже публичных
-    private int generateId() {
-        return nextId++;
     }
 }
