@@ -2,22 +2,23 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*Тесты для эпиков. Работоспособность сабтасок проверяется здесь же, поэтому делать отдельный
+класс SubTaskTest было бы излишнее, так как для их проверки пришлось бы все равно деллать эпик.
+*/
+
 class EpicTest {
 
     private TaskManager manager;
     private int epicId;
-    private int epicId2;
 
     @BeforeEach
     public void beforeEach(){
         manager = Managers.getDefault();
 
         Epic epic = new Epic(0, "Эпик 1", "Эпик 1_Тест");
-        Epic epic2 = new Epic(1, "Эпик 2", "Эпик 2_Тест");
 
         manager.createEpic(epic);
         epicId = epic.getTaskId();  // Сохраняем ID созданного эпика
-        epicId2 = epic2.getTaskId();
     }
 
     @Test
