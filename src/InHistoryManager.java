@@ -6,7 +6,7 @@ public class InHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> addHistory(Task task) {
-        if (historyTasks.size() >= 9) {
+        if (historyTasks.size() >= 10) {
             historyTasks.remove(0);
         }
         historyTasks.add(task);

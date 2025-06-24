@@ -1,39 +1,34 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 
     private int nextId = 1;
-    private HashMap<Integer, Task> tasks = new HashMap<>();
-    private HashMap<Integer, Epic> epics = new HashMap<>();
-    private HashMap<Integer, SubTask> subtasks = new HashMap<>();
+    private Map<Integer, Task> tasks = new HashMap<>();
+    private Map<Integer, Epic> epics = new HashMap<>();
+    private Map<Integer, SubTask> subtasks = new HashMap<>();
 
 
     //Метод получения списка всх объектов в трекере
     @Override
     public List<Task> getAllTasks() {
-        List<Task> allTasks = new ArrayList<>();
-        allTasks.addAll(tasks.values());
-        return allTasks;
+        return new ArrayList<>(tasks.values());
     }
 
     @Override
-    public List<Epic> getAllEpics(){
-        List<Epic> allEpics = new ArrayList<>();
-        allEpics.addAll(epics.values());
-        for (Epic epic : allEpics) {
+    public List<Epic> getAllEpics() {
+        for (Epic epic : epics.values()) {
             updateEpicStatus(epic.getTaskId());
         }
-        return allEpics;
+        return new ArrayList<>(epics.values());
     }
 
     @Override
-    public List<SubTask> getAllSubtasks(){
-        List<SubTask> allSubTasks = new ArrayList<>();
-        allSubTasks.addAll(subtasks.values());
-        return allSubTasks;
+    public List<SubTask> getAllSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
     //Метод удаления всех задач.
