@@ -52,8 +52,7 @@ public class InHistoryManager implements HistoryManager {
     }
 
     private void linkLast(Node node) {
-        if (tail == null)
-            head = node;
+        if (tail == null) head = node;
         else {
             node.prev = tail;
             tail.next = node;
