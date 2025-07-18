@@ -3,9 +3,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TaskTest{
+class TaskTest {
 
     private TaskManager manager;
+
     @BeforeEach
     void beforeEach() {
         manager = Managers.getDefault();

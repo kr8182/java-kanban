@@ -38,12 +38,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteAllEpics(){
+    public void deleteAllEpics() {
         epics.clear();
     }
 
     @Override
-    public void deleteAllSubTasks(){
+    public void deleteAllSubTasks() {
         subtasks.clear();
     }
 
@@ -146,7 +146,6 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
     }
-
 
 
     //Приватный метод перемещен ниже публичных
