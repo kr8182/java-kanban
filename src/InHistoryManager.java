@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class InHistoryManager implements HistoryManager {
 
@@ -26,7 +29,6 @@ public class InHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-
         Node node = nodeMap.get(id);
         if (node != null) {
             removeNode(node);
@@ -34,22 +36,8 @@ public class InHistoryManager implements HistoryManager {
     }
 
     // Added blank line below this comment to fix the error
-
     void removeNode(Node node) {
         nodeMap.remove(node.task.getTaskId());
-    }
-
-    //Объявляем класс нода
-    private static class Node {
-        Task task;
-        Node prev;
-        Node next;
-
-        public Node(Task task, Node prev, Node next) {
-            this.task = task;
-            this.prev = prev;
-            this.next = next;
-        }
     }
 
     private void linkLast(Node node) {
@@ -70,5 +58,18 @@ public class InHistoryManager implements HistoryManager {
             node = node.next;
         }
         return historyTasks;
+    }
+
+    //Объявляем класс нода
+    private static class Node {
+        Task task;
+        Node prev;
+        Node next;
+
+        public Node(Task task, Node prev, Node next) {
+            this.task = task;
+            this.prev = prev;
+            this.next = next;
+        }
     }
 }
