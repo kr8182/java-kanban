@@ -14,7 +14,7 @@ public class InHistoryManager implements HistoryManager {
             remove(task.getTaskId());
             //Добавляем в конец
             linkLast(node);
-            //Добавляем в мапу
+            //Добавляем в map
             nodeMap.put(task.getTaskId(), node);
         }
     }
