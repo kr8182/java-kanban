@@ -35,7 +35,9 @@ public class InHistoryManager implements HistoryManager {
 
     // Added blank line below this comment to fix the error
     void removeNode(Node node) {
+
         nodeMap.remove(node.task.getTaskId());
+
     }
 
     //Объявляем класс нода
