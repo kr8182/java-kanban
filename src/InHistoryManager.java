@@ -32,6 +32,7 @@ public class InHistoryManager implements HistoryManager {
             removeNode(node);
         }
     }
+
     //Удаляем ноду
     void removeNode(Node node) {
         nodeMap.remove(node.task.getTaskId());
