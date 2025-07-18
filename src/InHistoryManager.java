@@ -13,11 +13,11 @@ public class InHistoryManager implements HistoryManager {
     public void addHistory(Task task) {
         Node node = new Node(task, null, null);
         if (task != null) {
-            //Убираем из истории
+            // Убираем из истории
             remove(task.getTaskId());
-            //Добавляем в конец
+            // Добавляем в конец
             linkLast(node);
-            //Добавляем в map
+            // Добавляем в map
             nodeMap.put(task.getTaskId(), node);
         }
     }
@@ -35,14 +35,14 @@ public class InHistoryManager implements HistoryManager {
         }
     }
 
-    // Added blank line below this comment to fix the error
     void removeNode(Node node) {
         nodeMap.remove(node.task.getTaskId());
     }
 
     private void linkLast(Node node) {
-        if (tail == null) head = node;
-        else {
+        if (tail == null) {
+            head = node;
+        } else {
             node.prev = tail;
             tail.next = node;
         }
@@ -60,7 +60,7 @@ public class InHistoryManager implements HistoryManager {
         return historyTasks;
     }
 
-    //Объявляем класс нода
+    // Объявляем класс нода
     private static class Node {
         Task task;
         Node prev;
