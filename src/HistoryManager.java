@@ -7,5 +7,6 @@ public interface HistoryManager {
     //Метод добавления нового элемента в историю
     void addHistory(Task task);
 
+    //Метод удаления сущности Task по id
     void remove(int id);
 }

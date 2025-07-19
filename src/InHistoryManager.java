@@ -23,7 +23,13 @@ public class InHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return getTasks();
+        ArrayList<Task> historyTasks = new ArrayList<>();
+        Node node = head;
+        while (node != null) {
+            historyTasks.add(node.task);
+            node = node.next;
+        }
+        return historyTasks;
     }
 
     @Override
@@ -46,16 +52,6 @@ public class InHistoryManager implements HistoryManager {
             tail.next = node;
         }
         tail = node;
-    }
-
-    private ArrayList<Task> getTasks() {
-        ArrayList<Task> historyTasks = new ArrayList<>();
-        Node node = head;
-        while (node != null) {
-            historyTasks.add(node.task);
-            node = node.next;
-        }
-        return historyTasks;
     }
 
     // Объявляем класс нода
