@@ -12,7 +12,7 @@ class EpicTest {
     private int epicId;
 
     @BeforeEach
-    public void beforeEach(){
+    public void beforeEach() {
         manager = Managers.getDefault();
 
         Epic epic = new Epic(0, "Эпик 1", "Эпик 1_Тест");
