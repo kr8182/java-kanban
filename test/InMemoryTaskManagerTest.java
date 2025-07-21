@@ -3,9 +3,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest{
+class InMemoryTaskManagerTest {
 
-     static TaskManager manager;
+    static TaskManager manager;
 
     /*Тестовые сценарии ниже тестрируют, что проверьте, что InMemoryTaskManager действительно
      добавляет задачи разного типа и может найти их по id;
@@ -73,4 +73,5 @@ class InMemoryTaskManagerTest{
     void getSubTaskById() {
         assertNotNull(manager.getSubtask(5));
     }
+
 }

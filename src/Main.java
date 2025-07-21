@@ -79,12 +79,9 @@ public class Main {
         manager.getEpic(epic1.getTaskId());
         historyManager.addHistory(epic1);
 
+        historyManager.remove(epicId);
+
         System.out.println("История: " + historyManager.getHistory().toString());
-
-
-
-
-
 
 
     }
