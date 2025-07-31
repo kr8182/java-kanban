@@ -8,7 +8,7 @@ public class Main {
 
     private static FileBackedTaskManager fileManager;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         /*Создайте две задачи, а также эпик с двумя подзадачами и эпик с одной подзадачей.
             Распечатайте списки эпиков, задач и подзадач через System.out.println(..).
             Измените статусы созданных объектов, распечатайте их.
@@ -47,13 +47,6 @@ public class Main {
         fileManager.createSubTask(subtask3);
 
         System.out.println("Давай посмотрим, что с тасками: " + fileManager.getAllTasks().toString());
-
-        try {
-            fileManager.save();
-        } catch (IOException e) {
-            System.out.println("Какая-то херня с файлом");
-            throw new RuntimeException(e);
-        }
 
 
     }

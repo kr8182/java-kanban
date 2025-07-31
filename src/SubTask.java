@@ -3,6 +3,7 @@ public class SubTask extends Task {
 
     public SubTask(int taskId, String taskName, String taskDescription, int epicId) {
         super(taskId, taskName, taskDescription);
+        this.taskType = TaskType.SUBTASK;
         this.epicId = epicId;
     }
 
@@ -11,15 +12,14 @@ public class SubTask extends Task {
         return epicId;
     }
 
-    //Переопрределяем toString для корректного отображения
+    //Переопределяем toString для корректного отображения
     @Override
     public String toString() {
-        return "SubTask{" +
-                "taskId=" + taskId +
-                ", taskName='" + taskName + '\'' +
-                ", taskDescription='" + taskDescription + '\'' +
-                ", status=" + status +
-                ", epicId=" + epicId +
-                '}';
+            return taskId +
+                    "," + taskType +
+                    "," + taskName +
+                    "," + taskDescription +
+                    "," + status +
+                    "," + epicId;
     }
 }

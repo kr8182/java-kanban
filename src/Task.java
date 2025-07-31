@@ -1,11 +1,13 @@
 public class Task {
     protected int taskId;
+    protected TaskType taskType;
     protected String taskName;
     protected String taskDescription;
     protected TaskStatus status;
 
     public Task(int taskId, String taskName, String taskDescription) {
         this.taskId = taskId;
+        this.taskType = TaskType.TASK;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.status = TaskStatus.NEW;
@@ -46,11 +48,10 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "taskId=" + taskId +
-                ", taskName='" + taskName + '\'' +
-                ", taskDescription='" + taskDescription + '\'' +
-                ", status=" + status +
-                '}';
+        return taskId +
+                "," + taskType +
+                "," + taskName +
+                "," + taskDescription +
+                "," + status;
     }
 }

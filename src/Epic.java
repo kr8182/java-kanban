@@ -6,6 +6,7 @@ public class Epic extends Task {
 
     public Epic(int taskId, String taskName, String taskDescription) {
         super(taskId, taskName, taskDescription);
+        this.taskType = TaskType.EPIC;
     }
 
     public List<Integer> getSubtaskIds() {
@@ -24,12 +25,11 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "Epic{" +
-                "taskId=" + taskId +
-                ", taskName='" + taskName + '\'' +
-                ", taskDescription='" + taskDescription + '\'' +
-                ", status=" + status +
-                ", subtaskIds=" + subtaskIds +
-                '}';
+        return taskId +
+                "," + taskType +
+                "," + taskName +
+                "," + taskDescription +
+                "," + status +
+                "," + subtaskIds;
     }
 }
