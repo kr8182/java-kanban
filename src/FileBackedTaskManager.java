@@ -51,9 +51,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         // Используем созданный файл с путём
         try (Writer fileWriter = new FileWriter(file)) {
             fileWriter.write("id,type,name,status,description,epic" + "\n");
-            fileWriter.write(getAllEpics().toString() + '\n');
-            fileWriter.write(getAllTasks().toString() + '\n');
-            fileWriter.write(getAllSubtasks().toString() + '\n');
+            for (Epic epic : getAllEpics()) {
+                fileWriter.write(epic.toString() + '\n');
+            }
+
+            for (Task task : getAllTasks()) {
+                fileWriter.write(task.toString() + '\n');
+            }
+
+            for (SubTask subtask : getAllSubtasks()) {
+                fileWriter.write(subtask.toString() + '\n');
+            }
         } // Автоматическое закрытие файла
     }
 }

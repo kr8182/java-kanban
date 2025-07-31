@@ -29,7 +29,6 @@ public class Epic extends Task {
                 "," + taskType +
                 "," + taskName +
                 "," + taskDescription +
-                "," + status +
-                "," + subtaskIds;
+                "," + status;
     }
 }

@@ -43,9 +43,6 @@ public class Main {
         SubTask subtask3 = new SubTask(3, "СабТаска3", "СабТаска3_Тест", epicId);
         fileManager.createSubTask(subtask3);
 
-        SubTask subtask4 = new SubTask(4, "СабТаска4", "СабТаска4_Тест", epicId);
-        fileManager.createSubTask(subtask3);
-
         System.out.println("Давай посмотрим, что с тасками: " + fileManager.getAllTasks().toString());
 
 
