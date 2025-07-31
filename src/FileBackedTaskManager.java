@@ -80,6 +80,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         // Используем созданный файл с путём
         try (Writer fileWriter = new FileWriter(file)) {
+            //Создаем структуру файла по колонкам
             fileWriter.write("id,type,name,status,description,epic" + "\n");
             //Начинаем перетирать записи в файле или создавать новые, меняя всю таблицу целиком
             for (Epic epic : getAllEpics()) {
