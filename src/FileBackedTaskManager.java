@@ -32,6 +32,36 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
+    public void deleteTask(int id) {
+        super.deleteTask(id);
+        try {
+            save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteSubTask(int id) {
+        super.deleteSubTask(id);
+        try {
+            save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteEpic(int id) {
+        super.deleteEpic(id);
+        try {
+            save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void createSubTask(SubTask subtask) {
         super.createSubTask(subtask);
         try {
@@ -51,6 +81,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         // Используем созданный файл с путём
         try (Writer fileWriter = new FileWriter(file)) {
             fileWriter.write("id,type,name,status,description,epic" + "\n");
+            //Начинаем перетирать записи в файле или создавать новые, меняя всю таблицу целиком
             for (Epic epic : getAllEpics()) {
                 fileWriter.write(epic.toString() + '\n');
             }
