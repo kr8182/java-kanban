@@ -9,6 +9,11 @@ public class Epic extends Task {
         this.taskType = TaskType.EPIC;
     }
 
+    public Epic(int taskId, String taskName, String taskDescription, TaskStatus status) {
+        super(taskId, taskName, taskDescription);
+        this.taskType = TaskType.EPIC;
+    }
+
     public List<Integer> getSubtaskIds() {
         return subtaskIds;
     }

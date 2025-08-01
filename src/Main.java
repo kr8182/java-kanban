@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
@@ -24,6 +26,13 @@ public class Main {
 
         fileManager = Managers.getDefaultFileManager();
 
+        File dir = new File("C:\\documents");
+
+        File file = new File(dir, "outTasks.csv");
+
+        List<Task> tasks = fileManager.loadFromFile(file);
+
+        fileManager.fromTasksToMemory(tasks);
 
         Task task1 = new Task(0, "Таска1", "Таска 1_Тест");
         fileManager.createTask(task1);

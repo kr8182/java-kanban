@@ -1,14 +1,71 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    public static File loadFromFile(File file) {
+    public static List<Task> loadFromFile(File file) {
+        List<Task> tasks = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            // Пропускаем заголовок
+            reader.readLine();
 
-        return file;
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Разбиваем строку с сохранением пустых значений
+                String[] parts = line.split(",", -1);
 
+                try {
+                    int id = Integer.parseInt(parts[0].trim());
+                    TaskType type = TaskType.valueOf(parts[1].trim());
+                    String name = parts[2].trim();
+                    String description = parts[3].trim();
+                    TaskStatus status = TaskStatus.valueOf(parts[4].trim());
+
+                    switch (type) {
+                        case TASK:
+                            tasks.add(new Task(id, name, description, status));
+                            break;
+                        case EPIC:
+                            tasks.add(new Epic(id, name, description, status));
+                            break;
+                        case SUBTASK:
+                            if (parts.length < 6 || parts[5].isBlank()) {
+                                throw new IllegalArgumentException("Отсутствует epicId для подзадачи");
+                            }
+                            int epicId = Integer.parseInt(parts[5].trim());
+                            tasks.add(new SubTask(id, name, description, status, epicId));
+                            break;
+                    }
+                } catch (Exception e) {
+                    System.err.println("Ошибка в строке: " + line + " - " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка чтения файла: " + e.getMessage(), e);
+        }
+        return tasks;
+    }
+
+    public void fromTasksToMemory(List<Task> tasksFromFile) {
+        for (Task task : tasksFromFile) {
+            if (task.getTaskType() == TaskType.TASK) {
+                tasks.put(task.getTaskId(), task);
+            } else if (task.getTaskType() == TaskType.EPIC) {
+                epics.put(task.getTaskId(), (Epic) task);
+            } else {
+                subtasks.put(task.getTaskId(), (SubTask) task);
+            }
+        }
+        //Сдвигаем nextId, чтобы при генерации не было дубликтов id
+        nextId = tasksFromFile.size() + 1;
+    }
+
+    public void addTasksFromList(List list) {
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i).equals(TaskType.TASK)) {
+            }
+        }
     }
 
     @Override
@@ -77,11 +134,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             dir.mkdirs(); // Создаем директорию, если её нет
         }
         File file = new File(dir, "outTasks.csv");
-
         // Используем созданный файл с путём
         try (Writer fileWriter = new FileWriter(file)) {
             //Создаем структуру файла по колонкам
-            fileWriter.write("id,type,name,status,description,epic" + "\n");
+            fileWriter.write("id,type,name,description,status,epic" + "\n");
             //Начинаем перетирать записи в файле или создавать новые, меняя всю таблицу целиком
             for (Epic epic : getAllEpics()) {
                 fileWriter.write(epic.toString() + '\n');

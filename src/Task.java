@@ -5,6 +5,13 @@ public class Task {
     protected String taskDescription;
     protected TaskStatus status;
 
+    public Task(int taskId, String taskName, String taskDescription, TaskStatus status) {
+        this.taskId = taskId;
+        this.taskType = TaskType.TASK;
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+    }
+
     public Task(int taskId, String taskName, String taskDescription) {
         this.taskId = taskId;
         this.taskType = TaskType.TASK;
@@ -20,6 +27,10 @@ public class Task {
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    public TaskType getTaskType() {
+        return taskType;
     }
 
     public String getTaskName() {
