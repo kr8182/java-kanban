@@ -1,7 +1,8 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class InMemoryTaskManagerTest {
 
@@ -39,23 +40,19 @@ class InMemoryTaskManagerTest {
 
     @Test
     void getTask() {
-        assertEquals("[Task{taskId=3, taskName='Таска1', taskDescription='Таска 1_Тест', " +
-                "status=NEW}, Task{taskId=4, taskName='Таска2', " +
-                "taskDescription='Таска 2_Тест', status=NEW}]", manager.getAllTasks().toString());
+        assertEquals("[3,TASK,Таска1,Таска 1_Тест,NEW, " +
+                "4,TASK,Таска2,Таска 2_Тест,NEW]", manager.getAllTasks().toString());
     }
 
     @Test
     void getSubtask() {
-        assertEquals("[SubTask{taskId=5, taskName='СабТаска1', " +
-                        "taskDescription='СабТаска1_Тест', status=NEW, epicId=1}]",
+        assertEquals("[5,SUBTASK,СабТаска1,СабТаска1_Тест,NEW,1]",
                 manager.getAllSubtasks().toString());
     }
 
     @Test
     void getEpic() {
-        assertEquals("[Epic{taskId=1, taskName='Эпик 1', taskDescription='Эпик 1_Тест', " +
-                        "status=NEW, subtaskIds=[5]}, " +
-                        "Epic{taskId=2, taskName='Эпик 2', taskDescription='Эпик 2_Тест', status=NEW, subtaskIds=[]}]",
+        assertEquals("[1,EPIC,Эпик 1,Эпик 1_Тест,NEW, 2,EPIC,Эпик 2,Эпик 2_Тест,NEW]",
                 manager.getAllEpics().toString());
     }
 

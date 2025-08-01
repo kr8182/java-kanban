@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class InHistoryManagerTest extends InHistoryManager {
 
@@ -30,7 +31,7 @@ class InHistoryManagerTest extends InHistoryManager {
         Epic epic = new Epic(0, "Эпик 1", "Эпик 1_Тест");
         historyManager.addHistory(epic);
         assertNotNull(historyManager.getHistory());
-        assertEquals("[Epic{taskId=0, taskName='Эпик 1', taskDescription='Эпик 1_Тест', " + "status=NEW, subtaskIds=[]}]", historyManager.getHistory().toString());
+        assertEquals("[0,EPIC,Эпик 1,Эпик 1_Тест,NEW]", historyManager.getHistory().toString());
     }
 
     @Test
@@ -57,9 +58,7 @@ class InHistoryManagerTest extends InHistoryManager {
         tasks.forEach(historyManager::addHistory);
 
         tasks.remove(0);
-        assertEquals("[Task{taskId=0, taskName='Task 0', " +
-                "taskDescription='Description', status=NEW}, " + "Task{taskId=1, taskName='Task 1', " +
-                "taskDescription='Description', status=NEW}, Task{taskId=2, " + "taskName='Task 2', " +
-                "taskDescription='Description', status=NEW}]", historyManager.getHistory().toString());
+        assertEquals("[0,TASK,Task 0,Description,NEW, 1,TASK,Task 1,Description,NEW, " +
+                "2,TASK,Task 2,Description,NEW]", historyManager.getHistory().toString());
     }
 }
