@@ -61,13 +61,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         nextId = tasksFromFile.size() + 1;
     }
 
-    public void addTasksFromList(List list) {
-        for (int i = 1; i < list.size(); i++) {
-            if (list.get(i).equals(TaskType.TASK)) {
-            }
-        }
-    }
-
     @Override
     public void createEpic(Epic epic) {
         super.createEpic(epic);
