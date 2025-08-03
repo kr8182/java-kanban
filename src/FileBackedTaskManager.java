@@ -4,17 +4,26 @@ import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
+    File dir = new File("C:\\documents");
+    File file = new File(dir, "outTasks.csv");
+
     public static List<Task> loadFromFile(File file) {
         List<Task> tasks = new ArrayList<>();
+
+        if (!file.exists() || file.length() == 0) {
+            System.out.println("Файл не существует или пуст. Будет создана новая задача.");
+            return tasks;
+        }
+
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             // Пропускаем заголовок
+            System.out.println("Файл и директория существуют");
             reader.readLine();
 
             String line;
             while ((line = reader.readLine()) != null) {
                 // Разбиваем строку с сохранением пустых значений
                 String[] parts = line.split(",", -1);
-
                 try {
                     int id = Integer.parseInt(parts[0].trim());
                     TaskType type = TaskType.valueOf(parts[1].trim());
@@ -42,7 +51,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка чтения файла: " + e.getMessage(), e);
+            System.err.println("Ошибка чтения файла: " + e.getMessage());
         }
         return tasks;
     }
@@ -112,38 +121,53 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void createSubTask(SubTask subtask) {
+    public void createSubTask(SubTask subtask) throws ManagerSaveException {
         super.createSubTask(subtask);
         try {
             save();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (ManagerSaveException e) {
+            throw new ManagerSaveException("Ошибка с файлом");
         }
     }
 
-    private void save() throws IOException {
-        File dir = new File("C:\\documents");
+    public File createDirectoryAndFileWhileBooting() throws IOException {
+        System.out.println("Инициализация приложения и проверка на наличие файла и директории");
+
         if (!dir.exists()) {
-            dir.mkdirs(); // Создаем директорию, если её нет
+            System.out.println("Директория создается, так как не была найдена...");
+            dir.mkdirs();
+            System.out.println("Директория создана: " + dir.getAbsolutePath());
         }
-        File file = new File(dir, "outTasks.csv");
-        // Используем созданный файл с путём
+
+        if (!file.exists()) {
+            System.out.println("Файл не найден, создаем новый файл...");
+            file.createNewFile();
+            System.out.println("Файл создан: " + file.getAbsolutePath());
+
+            // Инициализируем файл заголовком
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write("id,type,name,description,status,epic\n");
+            }
+        }
+        return file;
+    }
+
+    private void save() throws ManagerSaveException {
         try (Writer fileWriter = new FileWriter(file)) {
-            //Создаем структуру файла по колонкам
-            fileWriter.write("id,type,name,description,status,epic" + "\n");
-            //Начинаем перетирать записи в файле или создавать новые, меняя всю таблицу целиком
+            fileWriter.write("id,type,name,description,status,epic\n");
+
             for (Epic epic : getAllEpics()) {
                 fileWriter.write(epic.toString() + '\n');
             }
-
             for (Task task : getAllTasks()) {
                 fileWriter.write(task.toString() + '\n');
             }
-
             for (SubTask subtask : getAllSubtasks()) {
                 fileWriter.write(subtask.toString() + '\n');
             }
-        } // Автоматическое закрытие файла
+        } catch (IOException e) {
+            throw new ManagerSaveException("Ошибка сохранения: " + e.getMessage());
+        }
     }
 }
 

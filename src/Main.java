@@ -26,9 +26,7 @@ public class Main {
 
         fileManager = Managers.getDefaultFileManager();
 
-        File dir = new File("C:\\documents");
-
-        File file = new File(dir, "outTasks.csv");
+        File file = fileManager.createDirectoryAndFileWhileBooting();
 
         List<Task> tasks = fileManager.loadFromFile(file);
 

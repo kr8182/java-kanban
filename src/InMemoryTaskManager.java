@@ -78,7 +78,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     //Метод создания сабтаски
     @Override
-    public void createSubTask(SubTask subTask) {
+    public void createSubTask(SubTask subTask) throws ManagerSaveException {
         int epicId = subTask.getEpicId();
         if (!epics.containsKey(epicId)) {
             throw new IllegalArgumentException("Epic not found: " + epicId);

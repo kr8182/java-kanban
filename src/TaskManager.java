@@ -25,7 +25,7 @@ public interface TaskManager {
     void createEpic(Epic epic);
 
     //Метод создания сабтаски
-    void createSubTask(SubTask subTask);
+    void createSubTask(SubTask subTask) throws ManagerSaveException;
 
     //Метод удаления таски
     void deleteTask(int taskId);
