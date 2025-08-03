@@ -33,8 +33,7 @@ public class Main {
 
             fileManager.fromTasksToMemory(tasks);
 
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Ошибка сохранения данных: " + e.getMessage());
             e.printStackTrace();
         }
