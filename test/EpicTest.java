@@ -14,18 +14,20 @@ class EpicTest {
     @BeforeEach
     public void beforeEach() {
         manager = Managers.getDefault();
-
         Epic epic = new Epic(0, "Эпик 1", "Эпик 1_Тест");
-
         manager.createEpic(epic);
-        epicId = epic.getTaskId();  // Сохраняем ID созданного эпика
+        epicId = epic.getTaskId();
     }
 
     @Test
     void testGetSubtaskIds() {
         Epic epicFromManager = manager.getEpic(epicId);
         SubTask subtask1 = new SubTask(1, "СабТаска1", "СабТаска1_Тест", epicId);
-        manager.createSubTask(subtask1);
+        try {
+            manager.createSubTask(subtask1);
+        } catch (ManagerSaveException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals("[2]", epicFromManager.getSubtaskIds().toString());
     }
 
@@ -34,7 +36,11 @@ class EpicTest {
         Epic epicFromManager = manager.getEpic(epicId);
         SubTask subtask1 = new SubTask(1, "СабТаска1", "СабТаска1_Тест", epicId);
         assertEquals("[]", epicFromManager.getSubtaskIds().toString());
-        manager.createSubTask(subtask1);
+        try {
+            manager.createSubTask(subtask1);
+        } catch (ManagerSaveException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals("[2]", epicFromManager.getSubtaskIds().toString());
     }
 
@@ -43,11 +49,16 @@ class EpicTest {
         Epic epicFromManager = manager.getEpic(epicId);
         SubTask subtask1 = new SubTask(1, "СабТаска1", "СабТаска1_Тест", epicId);
         assertEquals("[]", epicFromManager.getSubtaskIds().toString());
-        manager.createSubTask(subtask1);
+        try {
+            manager.createSubTask(subtask1);
+        } catch (ManagerSaveException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals("[2]", epicFromManager.getSubtaskIds().toString());
         manager.deleteSubTask(subtask1.getTaskId());
         assertEquals("[]", epicFromManager.getSubtaskIds().toString());
     }
+}
 
     /* Абсолютно не вижу смысл в подобном тесте, так как:
 
@@ -62,4 +73,3 @@ class EpicTest {
     }
 
      */
-}

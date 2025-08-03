@@ -10,7 +10,7 @@ public class Main {
 
     private static FileBackedTaskManager fileManager;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         /*Создайте две задачи, а также эпик с двумя подзадачами и эпик с одной подзадачей.
             Распечатайте списки эпиков, задач и подзадач через System.out.println(..).
             Измените статусы созданных объектов, распечатайте их.
@@ -18,19 +18,26 @@ public class Main {
             а статус эпика рассчитался по статусам подзадач.
             И, наконец, попробуйте удалить одну из задач и один из эпиков.
             Воспользуйтесь дебаггером среды разработки, чтобы понять логику работы программы и отладить её.*/
-        System.out.println("Итерация задачника!");
+        try {
+            System.out.println("Итерация задачника!");
 
-        manager = Managers.getDefault();
+            manager = Managers.getDefault();
 
-        historyManager = Managers.getDefaultHistory();
+            historyManager = Managers.getDefaultHistory();
 
-        fileManager = Managers.getDefaultFileManager();
+            fileManager = Managers.getDefaultFileManager();
 
-        File file = fileManager.createDirectoryAndFileWhileBooting();
+            File file = fileManager.createDirectoryAndFileWhileBooting();
 
-        List<Task> tasks = fileManager.loadFromFile(file);
+            List<Task> tasks = fileManager.loadFromFile(file);
 
-        fileManager.fromTasksToMemory(tasks);
+            fileManager.fromTasksToMemory(tasks);
+
+        }
+        catch (IOException e) {
+            System.err.println("Ошибка сохранения данных: " + e.getMessage());
+            e.printStackTrace();
+        }
 
         Task task1 = new Task(0, "Таска1", "Таска 1_Тест");
         fileManager.createTask(task1);
