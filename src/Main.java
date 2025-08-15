@@ -58,6 +58,5 @@ public class Main {
 
         System.out.println("Давай посмотрим, что с тасками: " + fileManager.getAllTasks().toString());
 
-
     }
 }

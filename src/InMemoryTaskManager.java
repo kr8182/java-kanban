@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -16,9 +17,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Epic> getAllEpics() {
-        for (Epic epic : epics.values()) {
-            updateEpicStatus(epic.getTaskId());
-        }
+        epics.values().stream().mapToInt(Task::getTaskId).forEach(this::updateEpicStatus);
         return new ArrayList<>(epics.values());
     }
 
@@ -47,19 +46,13 @@ public class InMemoryTaskManager implements TaskManager {
     // Дополнительный метод: получение подзадач эпика
     @Override
     public List<SubTask> getSubtasksByEpicId(int epicId) {
-        Epic epic = epics.get(epicId);
-        if (epic == null) {
-            return Collections.emptyList();
-        }
-
-        List<SubTask> result = new ArrayList<>();
-        for (int subtaskId : epic.getSubtaskIds()) {
-            SubTask subtask = subtasks.get(subtaskId);
-            if (subtask != null) {
-                result.add(subtask);
-            }
-        }
-        return result;
+        return Optional.ofNullable(epics.get(epicId))
+                .map(Epic::getSubtaskIds)
+                .map(ids -> ids.stream()
+                        .map(subtasks::get)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
     }
 
     //Метод создания таски
@@ -124,9 +117,7 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.remove(id);
         if (epic != null) {
             // Удаляем все подзадачи этого эпика
-            for (int subtaskId : epic.getSubtaskIds()) {
-                subtasks.remove(subtaskId);
-            }
+            epic.getSubtaskIds().forEach(subtaskId -> subtasks.remove(subtaskId));
         }
     }
 
@@ -141,6 +132,17 @@ public class InMemoryTaskManager implements TaskManager {
                 updateEpicStatus(epic.getTaskId());
             }
         }
+    }
+
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        List<Task> allTasks = new ArrayList<>();
+        allTasks.addAll(tasks.values());
+        allTasks.addAll(epics.values());
+        allTasks.addAll(subtasks.values());
+        allTasks.stream()
+                .sorted(Comparator.comparing(Task::getStartTime));
+        return allTasks;
     }
 
 

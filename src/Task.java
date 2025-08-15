@@ -1,15 +1,24 @@
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Task {
     protected int taskId;
     protected TaskType taskType;
     protected String taskName;
     protected String taskDescription;
     protected TaskStatus status;
+    protected Duration duration;
+    protected LocalDateTime startTime;
 
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
     public Task(int taskId, String taskName, String taskDescription, TaskStatus status) {
         this.taskId = taskId;
         this.taskType = TaskType.TASK;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
+        this.startTime = LocalDateTime.now();
     }
 
     public Task(int taskId, String taskName, String taskDescription) {
@@ -18,6 +27,7 @@ public class Task {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.status = TaskStatus.NEW;
+        this.startTime = LocalDateTime.now();
     }
 
     // Геттеры и сеттеры
@@ -63,6 +73,8 @@ public class Task {
                 "," + taskType +
                 "," + taskName +
                 "," + taskDescription +
-                "," + status;
+                "," + status +
+                "," + duration +
+                "," + startTime;
     }
 }

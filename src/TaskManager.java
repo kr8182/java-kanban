@@ -44,4 +44,7 @@ public interface TaskManager {
 
     //Метод просмотра эпика
     Epic getEpic(int id);
+
+    //Метод вывода приоритезированных задач
+    List<Task> getPrioritizedTasks();
 }
