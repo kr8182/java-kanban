@@ -28,6 +28,7 @@ public class SubTask extends Task {
                 "," + status +
                 "," + duration +
                 "," + startTime +
+                "," + getEndTime() +
                 "," + epicId;
     }
 }

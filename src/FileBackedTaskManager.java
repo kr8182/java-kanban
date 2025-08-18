@@ -130,7 +130,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private void save() {
         try (Writer fileWriter = new FileWriter(file)) {
-            fileWriter.write("id,type,name,description,status,duration,startTime,epic\n");
+            fileWriter.write("id,type,name,description,status,duration,startTime,endTime,epic\n");
 
             for (Task tas : getPrioritizedTasks()) {
                 fileWriter.write(tas.toString() + '\n');

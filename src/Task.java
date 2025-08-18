@@ -10,6 +10,13 @@ public class Task {
     protected Duration duration;
     protected LocalDateTime startTime;
 
+    public LocalDateTime getEndTime() {
+        if (startTime != null && duration != null) {
+            return startTime.plus(duration);
+        }
+        return null;
+    }
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -67,6 +74,14 @@ public class Task {
         this.status = status;
     }
 
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
     @Override
     public String toString() {
         return taskId +
@@ -75,6 +90,7 @@ public class Task {
                 "," + taskDescription +
                 "," + status +
                 "," + duration +
-                "," + startTime;
+                "," + startTime +
+                "," + getEndTime();
     }
 }

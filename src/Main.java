@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
 
 public class Main {
@@ -40,6 +41,7 @@ public class Main {
 
         Task task1 = new Task(0, "Таска1", "Таска 1_Тест");
         fileManager.createTask(task1);
+        task1.setDuration(Duration.ofHours(36));
 
         Epic epic1 = new Epic(1, "Эпик 1", "Эпик 1_Тест");
         fileManager.createEpic(epic1);
@@ -49,12 +51,19 @@ public class Main {
         // Создаем подзадачи для эпика
         SubTask subtask1 = new SubTask(1, "СабТаска1", "СабТаска1_Тест", epicId);
         fileManager.createSubTask(subtask1);
+        subtask1.setDuration(Duration.ofHours(48));
 
         SubTask subtask2 = new SubTask(2, "СабТаска2", "СабТаска2_Тест", epicId);
         fileManager.createSubTask(subtask2);
+        subtask2.setDuration(Duration.ofHours(30));
 
         SubTask subtask3 = new SubTask(3, "СабТаска3", "СабТаска3_Тест", epicId);
         fileManager.createSubTask(subtask3);
+        subtask3.setDuration(Duration.ofHours(40));
+
+        SubTask subtask4 = new SubTask(4, "СабТаска4", "СабТаска4_Тест", epicId);
+        fileManager.createSubTask(subtask4);
+        subtask4.setDuration(Duration.ofHours(40));
 
         System.out.println("Давай посмотрим, что с тасками: " + fileManager.getAllTasks().toString());
 

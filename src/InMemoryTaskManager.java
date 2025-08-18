@@ -1,3 +1,4 @@
+import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,21 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllSubTasks() {
+        Set<Integer> affectedEpics = new HashSet<>();
+        for (SubTask subTask : subtasks.values()) {
+            affectedEpics.add(subTask.getEpicId());
+        }
+
         subtasks.clear();
+
+        for (int epicId : affectedEpics) {
+            Epic epic = epics.get(epicId);
+            if (epic != null) {
+                epic.getSubtaskIds().clear();
+                updateEpicStatus(epicId);
+                updateEpicTime(epicId); // Добавлен вызов
+            }
+        }
     }
 
 
@@ -82,6 +97,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         Epic epic = epics.get(epicId);
         epic.addSubtaskId(subTask.getTaskId());
+        updateEpicTime(epicId);
         updateEpicStatus(epicId);
     }
 
@@ -130,8 +146,10 @@ public class InMemoryTaskManager implements TaskManager {
             if (epic != null) {
                 epic.removeSubtaskId(id);
                 updateEpicStatus(epic.getTaskId());
+                updateEpicTime(epic.getTaskId()); // Добавлен вызов
             }
         }
+
     }
 
     @Override
@@ -140,11 +158,23 @@ public class InMemoryTaskManager implements TaskManager {
         allTasks.addAll(tasks.values());
         allTasks.addAll(epics.values());
         allTasks.addAll(subtasks.values());
-        allTasks.stream()
-                .sorted(Comparator.comparing(Task::getStartTime));
-        return allTasks;
+
+        return allTasks.stream()
+                .filter(task -> task.getStartTime() != null)
+                .sorted(Comparator.comparing(
+                        Task::getStartTime,
+                        Comparator.nullsLast(Comparator.naturalOrder())
+                ))
+                .collect(Collectors.toList());
     }
 
+    private void updateEpicTime(int epicId) {
+        Epic epic = epics.get(epicId);
+        if (epic == null) return;
+
+        List<SubTask> epicSubTasks = getSubtasksByEpicId(epicId);
+        epic.updateTime(epicSubTasks);
+    }
 
     //Приватный метод перемещен ниже публичных
     private int generateId() {
