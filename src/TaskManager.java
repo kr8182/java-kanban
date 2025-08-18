@@ -1,5 +1,5 @@
-import java.time.Duration;
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
     //Метод получения списка всх объектов в трекере
@@ -47,5 +47,6 @@ public interface TaskManager {
     Epic getEpic(int id);
 
     //Метод вывода приоритезированных задач
-    List<Task> getPrioritizedTasks();
+    TreeSet<Task> getPrioritizedTasks();
+
 }

@@ -1,6 +1,6 @@
-import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -153,19 +153,23 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getPrioritizedTasks() {
-        List<Task> allTasks = new ArrayList<>();
-        allTasks.addAll(tasks.values());
-        allTasks.addAll(epics.values());
-        allTasks.addAll(subtasks.values());
-
-        return allTasks.stream()
-                .filter(task -> task.getStartTime() != null)
-                .sorted(Comparator.comparing(
+    public TreeSet<Task> getPrioritizedTasks() {
+        // Создаем компаратор с учетом null значений и fallback-сравнением
+        Comparator<Task> taskComparator = Comparator.comparing(
                         Task::getStartTime,
                         Comparator.nullsLast(Comparator.naturalOrder())
-                ))
-                .collect(Collectors.toList());
+                )
+                .thenComparing(Task::getTaskId); // Используем ID для гарантии уникальности
+
+        TreeSet<Task> sortedSet = new TreeSet<>(taskComparator);
+
+        // Добавляем все задачи из всех коллекций
+        Stream.of(tasks.values(), epics.values(), subtasks.values())
+                .flatMap(Collection::stream)
+                .filter(task -> task.getStartTime() != null)
+                .forEach(sortedSet::add);
+
+        return sortedSet;
     }
 
     private void updateEpicTime(int epicId) {
