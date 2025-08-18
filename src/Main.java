@@ -48,20 +48,28 @@ public class Main {
 
         int epicId = epic1.getTaskId(); // Получаем реальный ID эпика
 
+        Task task2 = new Task(2, "Таска2", "Таска 2_Тест");
+        fileManager.createTask(task1);
+        task2.setDuration(Duration.ofHours(36));
+
+        System.out.println("Давай посмотрим, что с тасками: " + fileManager.getAllTasks().toString());
+
         // Создаем подзадачи для эпика
-        SubTask subtask1 = new SubTask(1, "СабТаска1", "СабТаска1_Тест", epicId);
+        SubTask subtask1 = new SubTask(3, "СабТаска1", "СабТаска1_Тест", epicId);
         fileManager.createSubTask(subtask1);
         subtask1.setDuration(Duration.ofHours(48));
+        subtask1.setStatus(TaskStatus.IN_PROGRESS);
 
-        SubTask subtask2 = new SubTask(2, "СабТаска2", "СабТаска2_Тест", epicId);
+        System.out.println("Давай посмотрим, что с тасками: " + fileManager.getAllTasks().toString());
+        SubTask subtask2 = new SubTask(4, "СабТаска2", "СабТаска2_Тест", epicId);
         fileManager.createSubTask(subtask2);
         subtask2.setDuration(Duration.ofHours(30));
 
-        SubTask subtask3 = new SubTask(3, "СабТаска3", "СабТаска3_Тест", epicId);
+        SubTask subtask3 = new SubTask(5, "СабТаска3", "СабТаска3_Тест", epicId);
         fileManager.createSubTask(subtask3);
-        subtask3.setDuration(Duration.ofHours(40));
+        subtask3.setDuration(Duration.ofHours(47));
 
-        SubTask subtask4 = new SubTask(4, "СабТаска4", "СабТаска4_Тест", epicId);
+        SubTask subtask4 = new SubTask(6, "СабТаска4", "СабТаска4_Тест", epicId);
         fileManager.createSubTask(subtask4);
         subtask4.setDuration(Duration.ofHours(40));
 
