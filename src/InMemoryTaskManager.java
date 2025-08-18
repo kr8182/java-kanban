@@ -1,6 +1,5 @@
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -73,6 +72,9 @@ public class InMemoryTaskManager implements TaskManager {
     //Метод создания таски
     @Override
     public void createTask(Task task) {
+        if (isTaskOverlappingAny(task)) {
+            throw new ManagerValidationException("Задача пересекается по времени с существующей");
+        }
         task.setTaskId(generateId());
         tasks.put(task.getTaskId(), task);
     }
@@ -91,7 +93,9 @@ public class InMemoryTaskManager implements TaskManager {
         if (!epics.containsKey(epicId)) {
             throw new IllegalArgumentException("Epic not found: " + epicId);
         }
-
+        if (isTaskOverlappingAny(subTask)) {
+            throw new ManagerValidationException("Подзадача пересекается по времени с существующей");
+        }
         subTask.setTaskId(generateId());
         subtasks.put(subTask.getTaskId(), subTask);
 
@@ -154,22 +158,37 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public TreeSet<Task> getPrioritizedTasks() {
-        // Создаем компаратор с учетом null значений и fallback-сравнением
-        Comparator<Task> taskComparator = Comparator.comparing(
-                        Task::getStartTime,
-                        Comparator.nullsLast(Comparator.naturalOrder())
-                )
-                .thenComparing(Task::getTaskId); // Используем ID для гарантии уникальности
+        Comparator<Task> comparator = Comparator.comparing(
+                Task::getStartTime,
+                Comparator.nullsLast(Comparator.naturalOrder())
+        ).thenComparing(Task::getTaskId);
 
-        TreeSet<Task> sortedSet = new TreeSet<>(taskComparator);
-
-        // Добавляем все задачи из всех коллекций
-        Stream.of(tasks.values(), epics.values(), subtasks.values())
-                .flatMap(Collection::stream)
-                .filter(task -> task.getStartTime() != null)
-                .forEach(sortedSet::add);
+        TreeSet<Task> sortedSet = new TreeSet<>(comparator);
+        sortedSet.addAll(tasks.values());
+        sortedSet.addAll(epics.values());
+        sortedSet.addAll(subtasks.values());
 
         return sortedSet;
+    }
+
+    @Override
+    public List<Task> getAll() {
+        List<Task> allTasks = new ArrayList<>();
+        allTasks.addAll(tasks.values());
+        allTasks.addAll(epics.values());
+        allTasks.addAll(subtasks.values());
+        return allTasks;
+    }
+
+    private boolean isTaskOverlappingAny(Task taskToCheck) {
+        if (taskToCheck.getStartTime() == null) {
+            return false; // Задачи без времени не проверяем
+        }
+
+        return getAllTasks().stream()
+                .filter(task -> task.getTaskId() != taskToCheck.getTaskId()) // Исключаем текущую задачу
+                .filter(task -> task.getStartTime() != null) // Фильтруем задачи с временем
+                .anyMatch(existingTask -> Task.isTasksOverlap(taskToCheck, existingTask));
     }
 
     private void updateEpicTime(int epicId) {

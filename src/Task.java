@@ -82,6 +82,20 @@ public class Task {
         return duration;
     }
 
+    public static boolean isTasksOverlap(Task task1, Task task2) {
+        if (task1.getStartTime() == null || task2.getStartTime() == null) {
+            return false; // Задачи без времени не проверяем
+        }
+
+        LocalDateTime start1 = task1.getStartTime();
+        LocalDateTime end1 = start1.plus(task1.getDuration());
+        LocalDateTime start2 = task2.getStartTime();
+        LocalDateTime end2 = start2.plus(task2.getDuration());
+
+        return start1.isBefore(end2) && end1.isAfter(start2);
+    }
+
+
     @Override
     public String toString() {
         return taskId +

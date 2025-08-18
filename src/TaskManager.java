@@ -49,4 +49,6 @@ public interface TaskManager {
     //Метод вывода приоритезированных задач
     TreeSet<Task> getPrioritizedTasks();
 
+    List<Task> getAll();
+
 }
