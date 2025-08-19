@@ -32,19 +32,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     TaskStatus status = TaskStatus.valueOf(parts[4].trim());
 
                     switch (type) {
-                        case TASK:
-                            tasks.add(new Task(id, name, description, status));
-                            break;
-                        case EPIC:
-                            tasks.add(new Epic(id, name, description, status));
-                            break;
-                        case SUBTASK:
+                        case TASK -> tasks.add(new Task(id, name, description, status));
+                        case EPIC -> tasks.add(new Epic(id, name, description, status));
+                        case SUBTASK -> {
                             if (parts.length < 6 || parts[5].isBlank()) {
                                 throw new IllegalArgumentException("Отсутствует epicId для подзадачи");
                             }
                             int epicId = Integer.parseInt(parts[5].trim());
                             tasks.add(new SubTask(id, name, description, status, epicId));
-                            break;
+                        }
                     }
                 } catch (Exception e) {
                     System.err.println("Ошибка в строке: " + line + " - " + e.getMessage());
