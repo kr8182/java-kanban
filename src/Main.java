@@ -52,15 +52,12 @@ public class Main {
         fileManager.createTask(task1);
         task2.setDuration(Duration.ofHours(36));
 
-        System.out.println("Давай посмотрим, что с тасками: " + fileManager.getAllTasks().toString());
-
         // Создаем подзадачи для эпика
         SubTask subtask1 = new SubTask(3, "СабТаска1", "СабТаска1_Тест", epicId);
         fileManager.createSubTask(subtask1);
         subtask1.setDuration(Duration.ofHours(48));
         subtask1.setStatus(TaskStatus.IN_PROGRESS);
 
-        System.out.println("Давай посмотрим, что с тасками: " + fileManager.getAllTasks().toString());
         SubTask subtask2 = new SubTask(4, "СабТаска2", "СабТаска2_Тест", epicId);
         fileManager.createSubTask(subtask2);
         subtask2.setDuration(Duration.ofHours(30));

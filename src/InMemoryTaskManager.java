@@ -85,6 +85,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void createEpic(Epic epic) {
         epic.setTaskId(generateId());
         epics.put(epic.getTaskId(), epic);
+        updateEpicStatus(epic.getTaskId());
     }
 
     //Метод создания сабтаски
