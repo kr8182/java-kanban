@@ -10,16 +10,6 @@ public class Task {
     protected Duration duration;
     protected LocalDateTime startTime;
 
-    public LocalDateTime getEndTime() {
-        if (startTime != null && duration != null) {
-            return startTime.plus(duration);
-        }
-        return null;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
     public Task(int taskId, String taskName, String taskDescription, TaskStatus status) {
         this.taskId = taskId;
         this.taskType = TaskType.TASK;
@@ -35,6 +25,31 @@ public class Task {
         this.taskDescription = taskDescription;
         this.status = TaskStatus.NEW;
         this.startTime = LocalDateTime.now();
+    }
+
+    public static boolean isTasksOverlap(Task task1, Task task2) {
+        if (task1.getStartTime() == null || task2.getStartTime() == null
+                || task1.getDuration() == null || task2.getDuration() == null) {
+            return false; // Если нет времени начала или продолжительности - не проверяем
+        }
+
+        LocalDateTime start1 = task1.getStartTime();
+        LocalDateTime end1 = start1.plus(task1.getDuration());
+        LocalDateTime start2 = task2.getStartTime();
+        LocalDateTime end2 = start2.plus(task2.getDuration());
+
+        return start1.isBefore(end2) && end1.isAfter(start2);
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime != null && duration != null) {
+            return startTime.plus(duration);
+        }
+        return null;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
     // Геттеры и сеттеры
@@ -74,28 +89,13 @@ public class Task {
         this.status = status;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
-    }
-
     public Duration getDuration() {
         return duration;
     }
 
-    public static boolean isTasksOverlap(Task task1, Task task2) {
-        if (task1.getStartTime() == null || task2.getStartTime() == null
-                || task1.getDuration() == null || task2.getDuration() == null) {
-            return false; // Если нет времени начала или продолжительности - не проверяем
-        }
-
-        LocalDateTime start1 = task1.getStartTime();
-        LocalDateTime end1 = start1.plus(task1.getDuration());
-        LocalDateTime start2 = task2.getStartTime();
-        LocalDateTime end2 = start2.plus(task2.getDuration());
-
-        return start1.isBefore(end2) && end1.isAfter(start2);
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
-
 
     @Override
     public String toString() {
