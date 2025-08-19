@@ -36,7 +36,7 @@ class EpicTest {
     @Test
     void testAddSubtaskId() {
         Epic epicFromManager = manager.getEpic(epicId);
-        SubTask subtask1 = new SubTask(1, "СабТаска1", "СабТаска1_Тест", epicId);
+        SubTask subtask1 = new SubTask(2, "СабТаска1", "СабТаска1_Тест", epicId);
         assertEquals("[]", epicFromManager.getSubtaskIds().toString());
         try {
             manager.createSubTask(subtask1);
@@ -49,7 +49,7 @@ class EpicTest {
     @Test
     void testRemoveSubtaskId() {
         Epic epicFromManager = manager.getEpic(epicId);
-        SubTask subtask1 = new SubTask(1, "СабТаска1", "СабТаска1_Тест", epicId);
+        SubTask subtask1 = new SubTask(3, "СабТаска1", "СабТаска1_Тест", epicId);
         assertEquals("[]", epicFromManager.getSubtaskIds().toString());
         try {
             manager.createSubTask(subtask1);
@@ -65,9 +65,9 @@ class EpicTest {
     void testEpicStatus() {
         Epic epicFromManager = manager.getEpic(epicId);
 
-        SubTask subtask1 = new SubTask(1, "СабТаска1", "СабТаска1_Тест", epicId);
-        SubTask subtask2 = new SubTask(2, "СабТаска2", "СабТаска2_Тест", epicId);
-        SubTask subtask3 = new SubTask(3, "СабТаска3", "СабТаска3_Тест", epicId);
+        SubTask subtask1 = new SubTask(4, "СабТаска1", "СабТаска1_Тест", epicId);
+        SubTask subtask2 = new SubTask(5, "СабТаска2", "СабТаска2_Тест", epicId);
+        SubTask subtask3 = new SubTask(6, "СабТаска3", "СабТаска3_Тест", epicId);
 
         manager.createSubTask(subtask1);
         manager.createSubTask(subtask2);
@@ -85,9 +85,9 @@ class EpicTest {
     void testEpicStatusDone() {
         Epic epicFromManager = manager.getEpic(epicId);
 
-        SubTask subtask1 = new SubTask(1, "СабТаска1", "СабТаска1_Тест", epicId);
-        SubTask subtask2 = new SubTask(2, "СабТаска2", "СабТаска2_Тест", epicId);
-        SubTask subtask3 = new SubTask(3, "СабТаска3", "СабТаска3_Тест", epicId);
+        SubTask subtask1 = new SubTask(7, "СабТаска1", "СабТаска1_Тест", epicId);
+        SubTask subtask2 = new SubTask(8, "СабТаска2", "СабТаска2_Тест", epicId);
+        SubTask subtask3 = new SubTask(9, "СабТаска3", "СабТаска3_Тест", epicId);
 
         manager.createSubTask(subtask1);
         manager.createSubTask(subtask2);
@@ -105,9 +105,9 @@ class EpicTest {
     void testEpicStatusDoneAll() {
         Epic epicFromManager = manager.getEpic(epicId);
 
-        SubTask subtask1 = new SubTask(1, "СабТаска1", "СабТаска1_Тест", TaskStatus.DONE, epicId);
-        SubTask subtask2 = new SubTask(2, "СабТаска2", "СабТаска2_Тест", TaskStatus.DONE, epicId);
-        SubTask subtask3 = new SubTask(3, "СабТаска3", "СабТаска3_Тест", TaskStatus.DONE, epicId);
+        SubTask subtask1 = new SubTask(10, "СабТаска1", "СабТаска1_Тест", TaskStatus.DONE, epicId);
+        SubTask subtask2 = new SubTask(11, "СабТаска2", "СабТаска2_Тест", TaskStatus.DONE, epicId);
+        SubTask subtask3 = new SubTask(12, "СабТаска3", "СабТаска3_Тест", TaskStatus.DONE, epicId);
 
         manager.createSubTask(subtask1);
         manager.createSubTask(subtask2);
