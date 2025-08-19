@@ -10,12 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EpicTest {
 
-    private static FileBackedTaskManager manager;
+    private static TaskManager manager;
     private static int epicId;
 
     @BeforeAll
     public static void beforeAll() {
-        manager = Managers.getDefaultFileManager();
+        manager = Managers.getDefault();
         Epic epic = new Epic(0, "Эпик 1", "Эпик 1_Тест");
         manager.createEpic(epic);
         epicId = epic.getTaskId();
