@@ -33,10 +33,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Epic> getAllEpics() {
-        epics.values()
-                .stream()
-                .mapToInt(Task::getTaskId).
-                forEach(this::updateEpicStatus);
+        epics.values().stream()
+                .mapToInt(Task::getTaskId)
+                .forEach(this::updateEpicStatus);
         return new ArrayList<>(epics.values());
     }
 
