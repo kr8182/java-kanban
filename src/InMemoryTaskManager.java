@@ -1,3 +1,6 @@
+import exceptions.ManagerValidationException;
+
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -8,6 +11,19 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Epic> epics = new HashMap<>();
     protected Map<Integer, SubTask> subtasks = new HashMap<>();
 
+    public static boolean isTasksOverlap(Task task1, Task task2) {
+        if (task1.getStartTime() == null || task2.getStartTime() == null
+                || task1.getDuration() == null || task2.getDuration() == null) {
+            return false; // Если нет времени начала или продолжительности - не проверяем
+        }
+
+        LocalDateTime start1 = task1.getStartTime();
+        LocalDateTime end1 = start1.plus(task1.getDuration());
+        LocalDateTime start2 = task2.getStartTime();
+        LocalDateTime end2 = start2.plus(task2.getDuration());
+
+        return start1.isBefore(end2) && end1.isAfter(start2);
+    }
 
     //Метод получения списка всх объектов в трекере
     @Override
@@ -17,7 +33,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Epic> getAllEpics() {
-        epics.values().stream().mapToInt(Task::getTaskId).forEach(this::updateEpicStatus);
+        epics.values()
+                .stream()
+                .mapToInt(Task::getTaskId).
+                forEach(this::updateEpicStatus);
         return new ArrayList<>(epics.values());
     }
 
@@ -55,7 +74,6 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
     }
-
 
     // Дополнительный метод: получение подзадач эпика
     @Override
@@ -188,7 +206,7 @@ public class InMemoryTaskManager implements TaskManager {
         return getAllTasks().stream()
                 .filter(task -> task.getTaskId() != taskToCheck.getTaskId()) // Исключаем текущую задачу
                 .filter(task -> task.getStartTime() != null) // Фильтруем задачи с временем
-                .anyMatch(existingTask -> Task.isTasksOverlap(taskToCheck, existingTask));
+                .anyMatch(existingTask -> isTasksOverlap(taskToCheck, existingTask));
     }
 
     private void updateEpicTime(int epicId) {
