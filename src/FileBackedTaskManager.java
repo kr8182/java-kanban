@@ -1,3 +1,5 @@
+import exceptions.ManagerSaveException;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,19 +34,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     TaskStatus status = TaskStatus.valueOf(parts[4].trim());
 
                     switch (type) {
-                        case TASK:
-                            tasks.add(new Task(id, name, description, status));
-                            break;
-                        case EPIC:
-                            tasks.add(new Epic(id, name, description, status));
-                            break;
-                        case SUBTASK:
+                        case TASK -> tasks.add(new Task(id, name, description, status));
+                        case EPIC -> tasks.add(new Epic(id, name, description, status));
+                        case SUBTASK -> {
                             if (parts.length < 6 || parts[5].isBlank()) {
                                 throw new IllegalArgumentException("Отсутствует epicId для подзадачи");
                             }
                             int epicId = Integer.parseInt(parts[5].trim());
                             tasks.add(new SubTask(id, name, description, status, epicId));
-                            break;
+                        }
                     }
                 } catch (Exception e) {
                     System.err.println("Ошибка в строке: " + line + " - " + e.getMessage());
@@ -130,16 +128,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private void save() {
         try (Writer fileWriter = new FileWriter(file)) {
-            fileWriter.write("id,type,name,description,status,epic\n");
+            fileWriter.write("id,type,name,description,status,duration,startTime,endTime,epic\n");
 
-            for (Epic epic : getAllEpics()) {
-                fileWriter.write(epic.toString() + '\n');
-            }
-            for (Task task : getAllTasks()) {
-                fileWriter.write(task.toString() + '\n');
-            }
-            for (SubTask subtask : getAllSubtasks()) {
-                fileWriter.write(subtask.toString() + '\n');
+            for (Task tas : getPrioritizedTasks()) {
+                fileWriter.write(tas.toString() + '\n');
             }
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка сохранения", e);

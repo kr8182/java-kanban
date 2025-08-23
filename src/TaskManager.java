@@ -1,4 +1,7 @@
+import exceptions.ManagerSaveException;
+
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
     //Метод получения списка всх объектов в трекере
@@ -44,4 +47,10 @@ public interface TaskManager {
 
     //Метод просмотра эпика
     Epic getEpic(int id);
+
+    //Метод вывода приоритезированных задач
+    TreeSet<Task> getPrioritizedTasks();
+
+    List<Task> getAll();
+
 }

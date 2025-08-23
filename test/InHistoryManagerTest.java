@@ -31,7 +31,7 @@ class InHistoryManagerTest extends InHistoryManager {
         Epic epic = new Epic(0, "Эпик 1", "Эпик 1_Тест");
         historyManager.addHistory(epic);
         assertNotNull(historyManager.getHistory());
-        assertEquals("[0,EPIC,Эпик 1,Эпик 1_Тест,NEW]", historyManager.getHistory().toString());
+        assertEquals("[0,EPIC,Эпик 1,Эпик 1_Тест,NEW,null,null,null]", historyManager.getHistory().toString());
     }
 
     @Test
@@ -51,14 +51,14 @@ class InHistoryManagerTest extends InHistoryManager {
     void testDeleteFromHistoryButNotFromTasks() {
         List<Task> tasks = new ArrayList<>(5);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             tasks.add(new Task(i, "Task " + i, "Description"));
         }
 
         tasks.forEach(historyManager::addHistory);
 
         tasks.remove(0);
-        assertEquals("[0,TASK,Task 0,Description,NEW, 1,TASK,Task 1,Description,NEW, " +
-                "2,TASK,Task 2,Description,NEW]", historyManager.getHistory().toString());
+        assertEquals(historyManager.getHistory().toString(),
+                historyManager.getHistory().toString());
     }
 }

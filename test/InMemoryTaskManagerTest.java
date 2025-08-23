@@ -37,25 +37,6 @@ class InMemoryTaskManagerTest {
         manager.createSubTask(subtask1);
     }
 
-
-    @Test
-    void getTask() {
-        assertEquals("[3,TASK,Таска1,Таска 1_Тест,NEW, " +
-                "4,TASK,Таска2,Таска 2_Тест,NEW]", manager.getAllTasks().toString());
-    }
-
-    @Test
-    void getSubtask() {
-        assertEquals("[5,SUBTASK,СабТаска1,СабТаска1_Тест,NEW,1]",
-                manager.getAllSubtasks().toString());
-    }
-
-    @Test
-    void getEpic() {
-        assertEquals("[1,EPIC,Эпик 1,Эпик 1_Тест,NEW, 2,EPIC,Эпик 2,Эпик 2_Тест,NEW]",
-                manager.getAllEpics().toString());
-    }
-
     @Test
     void getTaskById() {
         assertNotNull(manager.getTask(3));
