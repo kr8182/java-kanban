@@ -1,5 +1,10 @@
+import interfaces.HistoryManager;
+import manager.InHistoryManager;
+import manager.Managers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tasks.Epic;
+import tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +44,7 @@ class InHistoryManagerTest extends InHistoryManager {
         List<Task> tasks = new ArrayList<>(5);
 
         for (int i = 0; i < 3; i++) {
-            tasks.add(new Task(i, "Task " + i, "Description"));
+            tasks.add(new Task(i, "tasks.Task " + i, "Description"));
         }
 
         tasks.forEach(historyManager::addHistory);
@@ -52,7 +57,7 @@ class InHistoryManagerTest extends InHistoryManager {
         List<Task> tasks = new ArrayList<>(5);
 
         for (int i = 0; i < 2; i++) {
-            tasks.add(new Task(i, "Task " + i, "Description"));
+            tasks.add(new Task(i, "tasks.Task " + i, "Description"));
         }
 
         tasks.forEach(historyManager::addHistory);

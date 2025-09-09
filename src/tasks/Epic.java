@@ -1,12 +1,12 @@
+package tasks;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Epic extends Task {
     private final List<Integer> subtaskIds = new ArrayList<>();
+    public HashMap<Integer, SubTask> subtasksList = new HashMap<>();
     private LocalDateTime endTime;
 
     public Epic(int taskId, String taskName, String taskDescription) {
@@ -23,6 +23,10 @@ public class Epic extends Task {
         this.startTime = null;
         this.duration = null;
         this.endTime = null;
+    }
+
+    public Epic(Integer id, String name, TaskStatus status, String details, Integer duration, String startTime) {
+        super(id, name, status, details, duration, startTime);
     }
 
     public List<Integer> getSubtaskIds() {
@@ -74,15 +78,4 @@ public class Epic extends Task {
         return endTime;
     }
 
-    @Override
-    public String toString() {
-        return taskId +
-                "," + taskType +
-                "," + taskName +
-                "," + taskDescription +
-                "," + status +
-                "," + duration +
-                "," + startTime +
-                "," + getEndTime();
-    }
 }

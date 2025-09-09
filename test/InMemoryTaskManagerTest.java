@@ -1,5 +1,10 @@
+import interfaces.TaskManager;
+import manager.Managers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,7 +13,7 @@ class InMemoryTaskManagerTest {
 
     static TaskManager manager;
 
-    /*Тестовые сценарии ниже тестрируют, что проверьте, что InMemoryTaskManager действительно
+    /*Тестовые сценарии ниже тестрируют, что проверьте, что manager.InMemoryTaskManager действительно
      добавляет задачи разного типа и может найти их по id;
 
      проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера; -

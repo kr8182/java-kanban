@@ -1,4 +1,11 @@
+import interfaces.HistoryManager;
+import interfaces.TaskManager;
+import manager.InHistoryManager;
+import manager.InMemoryTaskManager;
+import manager.Managers;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,15 +17,15 @@ class ManagersTest extends Managers {
 
 
     @Test
-    void testGetDefault() {
+    void testGetDefault() throws IOException, InterruptedException {
         TaskManager taskManager = Managers.getDefault();
 
         // Проверяем, что экземпляр не null
-        assertNotNull(taskManager, "TaskManager не должен быть null");
+        assertNotNull(taskManager, "interfaces.TaskManager не должен быть null");
 
-        // Проверяем, что возвращается именно InMemoryTaskManager
+        // Проверяем, что возвращается именно manager.InMemoryTaskManager
         assertTrue(taskManager instanceof InMemoryTaskManager,
-                "Должен возвращаться экземпляр InMemoryTaskManager");
+                "Должен возвращаться экземпляр manager.InMemoryTaskManager");
     }
 
     @Test
@@ -26,10 +33,10 @@ class ManagersTest extends Managers {
         HistoryManager historyManager = Managers.getDefaultHistory();
 
         // Проверяем, что экземпляр не null
-        assertNotNull(historyManager, "HistoryManager не должен быть null");
+        assertNotNull(historyManager, "interfaces.HistoryManager не должен быть null");
 
-        // Проверяем, что возвращается именно InHistoryManager
+        // Проверяем, что возвращается именно manager.InHistoryManager
         assertTrue(historyManager instanceof InHistoryManager,
-                "Должен возвращаться экземпляр InHistoryManager");
+                "Должен возвращаться экземпляр manager.InHistoryManager");
     }
 }
