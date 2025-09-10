@@ -73,6 +73,38 @@ public class Epic extends Task {
         this.endTime = newEndTime;
     }
 
+    public void updateEpic() {
+        int newTasks = 0;
+        int doneTasks = 0;
+        for (SubTask subtask : subtasksList.values()) {
+            if (subtask.getStatus() == TaskStatus.NEW) {
+                newTasks++;
+            } else if (subtask.getStatus() == TaskStatus.DONE) doneTasks++;
+        }
+        if (subtasksList.size() == newTasks) {
+            setStatus(TaskStatus.NEW);
+        } else if (subtasksList.size() == doneTasks) {
+            setStatus(TaskStatus.DONE);
+        } else setStatus(TaskStatus.IN_PROGRESS);
+
+        LocalDateTime startTime = this.startTime;
+        LocalDateTime endTime = this.endTime;
+        Duration duration = Duration.ofSeconds(0);
+
+        for (SubTask subtask : subtasksList.values()) {
+            if (startTime.isAfter(subtask.startTime)) {
+                startTime = subtask.startTime;
+            }
+            if (getEndTime().isBefore(subtask.getEndTime())) {
+                endTime = subtask.getEndTime();
+            }
+            duration = duration.plus(subtask.duration);
+        }
+        if (duration.isZero()) {
+            duration = Duration.between(startTime, endTime);
+        }
+    }
+
     @Override
     public LocalDateTime getEndTime() {
         return endTime;

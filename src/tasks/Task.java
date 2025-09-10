@@ -3,22 +3,25 @@ package tasks;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Task {
+    public static DateTimeFormatter DATE_TIME_FORMATTER;
     protected Integer taskId;
     protected TaskType taskType;
     protected String taskName;
     protected String taskDescription;
     protected TaskStatus status;
     protected Duration duration;
-    protected LocalDateTime startTime;
+    LocalDateTime startTime;
+    private TaskType type;
 
     public Task(int taskId, String taskName, String taskDescription, TaskStatus status) {
         this.taskId = taskId;
         this.taskType = TaskType.TASK;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.startTime = LocalDateTime.now();
+        this.status = TaskStatus.NEW;
     }
 
     public Task(int taskId, String taskName, String taskDescription) {
@@ -27,7 +30,6 @@ public class Task {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.status = TaskStatus.NEW;
-        this.startTime = LocalDateTime.now();
     }
 
     public Task(Integer taskId, String taskName, TaskStatus status, String details, Integer duration, String startTime) {
@@ -95,8 +97,25 @@ public class Task {
         this.duration = duration;
     }
 
+    public void setType(TaskType type) {
+        this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(taskName, task.taskName) && taskDescription.equals(task.taskDescription) && Objects.equals(taskId, task.taskId) && Objects.equals(status, task.status);
+    }
+
     @Override
     public String toString() {
         return String.format("%d,%S,%s,%s,%s,%d,%s", taskId, this.getClass().getSimpleName(), taskName, status, taskDescription, duration.toMinutes(), startTime.format(DateTimeFormatter.ofPattern("dd_MM_yyyy|HH:mm")));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(taskName, taskDescription, taskId, status);
     }
 }

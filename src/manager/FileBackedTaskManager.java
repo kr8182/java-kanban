@@ -1,6 +1,7 @@
 package manager;
 
 import exceptions.ManagerSaveException;
+import interfaces.HistoryManager;
 import tasks.*;
 
 import java.io.*;
@@ -78,13 +79,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return task;
     }
 
-    static String historyToString(InHistoryManager manager) {
+    static String historyToString(HistoryManager manager) {
         String[] array = new String[manager.getTasks().size()];
         int i = 0;
         for (Task task : manager.getTasks()) {
-            array[i++] = String.valueOf(task.getTaskId());
+            array[i++] = task.getTaskId().toString();
         }
-        return String.join(",", array.toString());
+        return String.join(",", array);
     }
 
     static List<Integer> historyFromString(String value) {

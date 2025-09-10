@@ -2,6 +2,7 @@ package interfaces;
 
 import tasks.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface HistoryManager {
@@ -15,4 +16,6 @@ public interface HistoryManager {
     void remove(int id);
 
     void deleteHistory();
+
+    ArrayList<Task> getTasks();
 }
