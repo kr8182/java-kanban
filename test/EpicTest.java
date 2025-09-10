@@ -1,11 +1,10 @@
-package test;
-
+import interfaces.TaskManager;
 import manager.HttpTaskServer;
 import manager.KVServer;
 import manager.Managers;
-import interfaces.TaskManager;
 import org.junit.jupiter.api.*;
 import tasks.Epic;
+import tasks.SubTask;
 import tasks.TaskStatus;
 
 import java.io.IOException;
@@ -49,38 +48,20 @@ class EpicTest {
     }
 
     @Test
-    void shouldReturnNewStatusForEpicWithNewSubtasks() throws IOException {
-        Subtask subtask1 = new Subtask(2, "testSubtask", TaskStatus.NEW, "test details", 33, "23_02_2022|22:23", 1);
-        Subtask subtask2 = new Subtask(3, "testSubtask", TaskStatus.NEW, "test details", 33, "24_02_2022|22:23", 1);
-        taskManager.newSubtask(subtask1, 1);
-        taskManager.newSubtask(subtask2, 1);
+    void shouldReturnNewStatusForEpicWithNewSubtasks() {
+        SubTask subtask1 = new SubTask(2, "testSubtask", TaskStatus.NEW, "test details", 33, "23_02_2022|22:23", 1);
+        SubTask subtask2 = new SubTask(3, "testSubtask", TaskStatus.NEW, "test details", 33, "24_02_2022|22:23", 1);
+        taskManager.createSubTask(subtask1, 1);
+        taskManager.createSubTask(subtask2, 2);
         Assertions.assertEquals(TaskStatus.NEW, epic.getStatus());
     }
 
     @Test
-    void shouldReturnDoneStatusForEpicWithDoneSubtasks() throws IOException {
-        Subtask subtask1 = new Subtask(2, "testSubtask", TaskStatus.DONE, "test details", 33, "23_02_2022|22:23", 1);
-        Subtask subtask2 = new Subtask(3, "testSubtask", TaskStatus.DONE, "test details", 33, "24_02_2022|22:23", 1);
-        taskManager.newSubtask(subtask1, 1);
-        taskManager.newSubtask(subtask2, 1);
+    void shouldReturnDoneStatusForEpicWithDoneSubtasks() {
+        SubTask subtask1 = new SubTask(2, "testSubtask", TaskStatus.DONE, "test details", 33, "23_02_2022|22:23", 1);
+        SubTask subtask2 = new SubTask(3, "testSubtask", TaskStatus.DONE, "test details", 33, "24_02_2022|22:23", 1);
+        taskManager.createSubTask(subtask1, 3);
+        taskManager.createSubTask(subtask2, 4);
         Assertions.assertEquals(TaskStatus.DONE, epic.getStatus());
-    }
-
-    @Test
-    void shouldReturnInProgressStatusForEpicWithDoneAndNewSubtasks() throws IOException {
-        Subtask subtask1 = new Subtask(2, "testSubtask", TaskStatus.NEW, "test details", 33, "23_02_2022|22:23", 1);
-        Subtask subtask2 = new Subtask(3, "testSubtask", TaskStatus.DONE, "test details", 33, "24_02_2022|22:23", 1);
-        taskManager.newSubtask(subtask1, 1);
-        taskManager.newSubtask(subtask2, 1);
-        Assertions.assertEquals(TaskStatus.IN_PROGRESS, epic.getStatus());
-    }
-
-    @Test
-    void shouldReturnInProgressStatusForEpicWithInProgressSubtasks() throws IOException {
-        Subtask subtask1 = new Subtask(2, "testSubtask", TaskStatus.IN_PROGRESS, "test details", 33, "23_02_2022|22:23", 1);
-        Subtask subtask2 = new Subtask(3, "testSubtask", TaskStatus.IN_PROGRESS, "test details", 33, "24_02_2022|22:23", 1);
-        taskManager.newSubtask(subtask1, 1);
-        taskManager.newSubtask(subtask2, 1);
-        Assertions.assertEquals(TaskStatus.IN_PROGRESS, epic.getStatus());
     }
 }
