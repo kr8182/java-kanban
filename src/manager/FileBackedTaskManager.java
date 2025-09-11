@@ -15,7 +15,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private final Path path;
     File dir = new File("C:\\documents");
     File file = new File(dir, "outTasks.csv");
-    private InHistoryManager InHistoryManager;
 
     public FileBackedTaskManager(Path path) {
         this.path = path;
@@ -80,9 +79,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     static String historyToString(HistoryManager manager) {
-        String[] array = new String[manager.getTasks().size()];
+        String[] array = new String[manager.getHistory().size()];
         int i = 0;
-        for (Task task : manager.getTasks()) {
+        for (Task task : manager.getHistory()) {
             array[i++] = task.getTaskId().toString();
         }
         return String.join(",", array);
@@ -138,6 +137,34 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 
+    // Переопределите методы получения задач для добавления в историю
+    @Override
+    public Task getTask(int id) {
+        Task task = super.getTask(id);
+        if (task != null) {
+            inMemoryHistoryManager.addHistory(task);
+        }
+        return task;
+    }
+
+    @Override
+    public SubTask getSubtask(int id) {
+        SubTask subtask = super.getSubtask(id);
+        if (subtask != null) {
+            inMemoryHistoryManager.addHistory(subtask);
+        }
+        return subtask;
+    }
+
+    @Override
+    public Epic getEpic(int id) {
+        Epic epic = super.getEpic(id);
+        if (epic != null) {
+            inMemoryHistoryManager.addHistory(epic);
+        }
+        return epic;
+    }
+
     public File createDirectoryAndFileWhileBooting() throws IOException {
         System.out.println("Инициализация приложения и проверка на наличие файла и директории");
 
@@ -177,11 +204,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 out.newLine();
             }
             out.newLine();
-            out.write(historyToString(InHistoryManager));
+            out.write(historyToString(inMemoryHistoryManager)); // Используем инициализированный менеджер истории
 
         } catch (ManagerSaveException e) {
             e.printStackTrace();
         }
     }
 }
-

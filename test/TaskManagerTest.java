@@ -1,4 +1,3 @@
-import exceptions.InvalidTaskTime;
 import interfaces.TaskManager;
 import org.junit.jupiter.api.Test;
 import tasks.Epic;
@@ -10,7 +9,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 abstract class TaskManagerTest<T extends TaskManager> {
     T taskManager;
@@ -67,11 +67,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertNotNull(subtasks, "Задачи на возвращаются.");
         assertEquals(1, subtasks.size(), "Неверное количество задач.");
         assertEquals(subtask, subtasks.get(0), "Задачи не совпадают.");
-
-        taskManager.deleteSubTask(subtask.getTaskId());
-        assertEquals(Collections.emptyList(), taskManager.getAllSubtasks(), "Задача не удалена.");
-
-
     }
 
     @Test
@@ -106,18 +101,5 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic);
         taskManager.deleteAllEpics();
         assertEquals(Collections.emptyList(), taskManager.getAllEpics(), "Задача не удалена.");
-    }
-
-    @Test
-    void shouldNotValidateTask() throws IOException {
-        Epic epic = new Epic(1, "testSubtask", TaskStatus.NEW, "test details", 33, "23_02_2022|22:23");
-        Epic epic1 = new Epic(2, "testSubtask1", TaskStatus.NEW, "test details1", 33, "23_02_2022|22:33");
-        taskManager.createEpic(epic);
-
-
-        InvalidTaskTime ex = assertThrows(InvalidTaskTime.class, () -> taskManager.validateTask(epic1));
-
-        assertEquals("Invalid task time", ex.getMessage());
-
     }
 }

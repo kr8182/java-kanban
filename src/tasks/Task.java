@@ -53,7 +53,7 @@ public class Task {
     }
 
     // Геттеры и сеттеры
-    public int getTaskId() {
+    public Integer getTaskId() {
         return taskId;
     }
 
