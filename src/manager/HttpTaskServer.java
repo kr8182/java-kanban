@@ -128,7 +128,6 @@ public class HttpTaskServer {
 
                     }
 
-                {
                     switch (uriSplit[2]) {
                         case "task": {
                             if (Pattern.matches("^/tasks/task/+$", path)) {
@@ -185,7 +184,6 @@ public class HttpTaskServer {
                         }
                     }
                     break;
-                }
                 case "DELETE": {
                     if (Pattern.matches("^/tasks/+$", path)) {
                         taskManager.deleteEverything();
