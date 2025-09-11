@@ -11,15 +11,14 @@ import java.io.IOException;
 
 class EpicTest {
 
+    static KVServer kvServer;
     TaskManager taskManager;
     HttpTaskServer server;
     Epic epic;
 
-    static KVServer kvServer;
-
     @BeforeAll
     static void beforeAll() throws IOException {
-        kvServer= new KVServer();
+        kvServer = new KVServer();
         kvServer.start();
     }
 
