@@ -29,9 +29,7 @@ public class HttpTaskServer {
     public HttpTaskServer() throws IOException, InterruptedException {
         this.taskManager = Managers.getDefault();
 
-        gson = new GsonBuilder()
-                .registerTypeAdapter(Task.class, new TaskAdapter())
-                .create();
+        gson = new GsonBuilder().registerTypeAdapter(Task.class, new TaskAdapter()).create();
         server = HttpServer.create(new InetSocketAddress("localhost", PORT), 0);
         server.createContext("/tasks", this::handleTasks);
     }
@@ -129,6 +127,7 @@ public class HttpTaskServer {
                         break;
 
                     }
+
                 {
                     switch (uriSplit[2]) {
                         case "task": {
@@ -174,8 +173,7 @@ public class HttpTaskServer {
                                 reqBody = reqBody.substring(1, (reqBody.length() - 1));
                                 SubTask task = (SubTask) FileBackedTaskManager.fromString(reqBody);
                                 System.out.println("заюзали post tasks/subtask/");
-                                if (taskManager.getAllSubtasks().contains(task.getTaskId())) {
-                                } else {
+                                if (!taskManager.getAllSubtasks().contains(task.getTaskId())) {
                                     taskManager.createSubTask(task, task.getEpicId());
                                     break;
                                 }
@@ -259,8 +257,7 @@ public class HttpTaskServer {
             }
 
 
-        } catch (
-                Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
         } finally {
             httpExchange.close();
