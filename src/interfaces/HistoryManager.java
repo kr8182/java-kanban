@@ -1,3 +1,8 @@
+package interfaces;
+
+import tasks.Task;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public interface HistoryManager {
@@ -7,6 +12,10 @@ public interface HistoryManager {
     //Метод добавления нового элемента в историю
     void addHistory(Task task);
 
-    //Метод удаления сущности Task по id
+    //Метод удаления сущности tasks.Task по id
     void remove(int id);
+
+    void deleteHistory();
+
+    ArrayList<Task> getTasks();
 }

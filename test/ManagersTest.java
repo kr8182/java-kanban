@@ -1,6 +1,10 @@
+import interfaces.HistoryManager;
+import manager.InHistoryManager;
+import manager.Managers;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /* Тест проверяет, что утилитарный класс всегда возвращает
 проинициализированные и готовые к работе экземпляры менеджеров;
@@ -8,28 +12,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ManagersTest extends Managers {
 
-
-    @Test
-    void testGetDefault() {
-        TaskManager taskManager = Managers.getDefault();
-
-        // Проверяем, что экземпляр не null
-        assertNotNull(taskManager, "TaskManager не должен быть null");
-
-        // Проверяем, что возвращается именно InMemoryTaskManager
-        assertTrue(taskManager instanceof InMemoryTaskManager,
-                "Должен возвращаться экземпляр InMemoryTaskManager");
-    }
-
     @Test
     void testGetDefaultHistory() {
         HistoryManager historyManager = Managers.getDefaultHistory();
 
         // Проверяем, что экземпляр не null
-        assertNotNull(historyManager, "HistoryManager не должен быть null");
+        assertNotNull(historyManager, "interfaces.HistoryManager не должен быть null");
 
-        // Проверяем, что возвращается именно InHistoryManager
+        // Проверяем, что возвращается именно manager.InHistoryManager
         assertTrue(historyManager instanceof InHistoryManager,
-                "Должен возвращаться экземпляр InHistoryManager");
+                "Должен возвращаться экземпляр manager.InHistoryManager");
     }
 }

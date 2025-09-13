@@ -1,3 +1,8 @@
+package manager;
+
+import interfaces.HistoryManager;
+import tasks.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -5,6 +10,7 @@ import java.util.Map;
 
 public class InHistoryManager implements HistoryManager {
     private final Map<Integer, Node> nodeMap = new HashMap<>();
+    Map<Integer, Node> historyMap = new HashMap<>();
     private Node head;
     private Node tail;
 
@@ -44,6 +50,19 @@ public class InHistoryManager implements HistoryManager {
         nodeMap.remove(node.task.getTaskId());
     }
 
+    public ArrayList<Task> getTasks() {
+        if (historyMap.size() > 0) {
+            ArrayList<Task> tasks = new ArrayList<>();
+            tasks.add(head.task);
+            Node node = head;
+            while (node.next != null) {
+                node = node.next;
+                tasks.add(node.task);
+            }
+            return tasks;
+        } else return new ArrayList<>();
+    }
+
     private void linkLast(Node node) {
         if (tail == null) {
             head = node;
@@ -52,6 +71,12 @@ public class InHistoryManager implements HistoryManager {
             tail.next = node;
         }
         tail = node;
+    }
+
+    @Override
+    public void deleteHistory() {
+        nodeMap.clear();
+        historyMap.clear();
     }
 
     // Объявляем класс нода

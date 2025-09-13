@@ -1,12 +1,12 @@
+package tasks;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Epic extends Task {
     private final List<Integer> subtaskIds = new ArrayList<>();
+    public HashMap<Integer, SubTask> subtasksList = new HashMap<>();
     private LocalDateTime endTime;
 
     public Epic(int taskId, String taskName, String taskDescription) {
@@ -23,6 +23,10 @@ public class Epic extends Task {
         this.startTime = null;
         this.duration = null;
         this.endTime = null;
+    }
+
+    public Epic(Integer id, String name, TaskStatus status, String details, Integer duration, String startTime) {
+        super(id, name, status, details, duration, startTime);
     }
 
     public List<Integer> getSubtaskIds() {
@@ -69,20 +73,41 @@ public class Epic extends Task {
         this.endTime = newEndTime;
     }
 
+    public void updateEpic() {
+        int newTasks = 0;
+        int doneTasks = 0;
+        for (SubTask subtask : subtasksList.values()) {
+            if (subtask.getStatus() == TaskStatus.NEW) {
+                newTasks++;
+            } else if (subtask.getStatus() == TaskStatus.DONE) doneTasks++;
+        }
+        if (subtasksList.size() == newTasks) {
+            setStatus(TaskStatus.NEW);
+        } else if (subtasksList.size() == doneTasks) {
+            setStatus(TaskStatus.DONE);
+        } else setStatus(TaskStatus.IN_PROGRESS);
+
+        LocalDateTime startTime = this.startTime;
+        LocalDateTime endTime = this.endTime;
+        Duration duration = Duration.ofSeconds(0);
+
+        for (SubTask subtask : subtasksList.values()) {
+            if (startTime.isAfter(subtask.startTime)) {
+                startTime = subtask.startTime;
+            }
+            if (getEndTime().isBefore(subtask.getEndTime())) {
+                endTime = subtask.getEndTime();
+            }
+            duration = duration.plus(subtask.duration);
+        }
+        if (duration.isZero()) {
+            duration = Duration.between(startTime, endTime);
+        }
+    }
+
     @Override
     public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    @Override
-    public String toString() {
-        return taskId +
-                "," + taskType +
-                "," + taskName +
-                "," + taskDescription +
-                "," + status +
-                "," + duration +
-                "," + startTime +
-                "," + getEndTime();
-    }
 }
